@@ -33,7 +33,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // parse application/json
 app.use(bodyParser.json());
 const path = __dirname + "/views/";
-const port = 8080;
 
 router.use(function (req, res, next) {
   console.log("/" + req.method);
@@ -44,14 +43,14 @@ router.get("/", function (req, res) {
   res.sendFile(path + "index.html");
 });
 
-router.get("/sharks", function (req, res) {
-  res.sendFile(path + "sharks.html");
-});
-
 app.use(express.static(path));
 app.use("/", router);
 
 app.use("/app/pages", pageRouter);
+
+app.use("*", (req, res) => {
+  res.sendFile(path + "index.html");
+});
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, function () {
