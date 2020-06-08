@@ -2,12 +2,18 @@
  A dockerized micro-service for managing static, external pages
 
 ## The task
-
  Create A dockerized micro-service for managing static, external pages
     - add_page
     - retrieve_page_html
     - set_page_markdown
     - list_pages
+    
+**Create A dockerized micro-service for managing static, external pages**
+
+ * add_page
+ * retrieve_page_html
+ * set_page_markdown
+ * list_pages
 
 
 ### End-points
@@ -16,3 +22,4 @@
  * */retrieve_page_html*
  * */set_page_markup*
  * */list_pages*
+
