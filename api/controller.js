@@ -1,9 +1,6 @@
 'use strict';
 
-
-var specificService = require('../service/specificService');
 var retrievePageHtml = require('../service/retrievePageHtml');
-var jquery = require('jquery');
 var controllers = {
   
     getService1: function(req, res) {
@@ -11,8 +8,6 @@ var controllers = {
                 if (err)
                     res.send(err);
                 res.json(data);
-                // res.send(data);
-                
             });
         },
         
