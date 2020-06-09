@@ -4,7 +4,14 @@ const router = express.Router();
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const cors = require("cors");
+const {
+  addPage,
+  retrievePage,
+  setPageMarkdown,
+  listPage,
+} = require("./controller/page");
 require("dotenv").config();
+
 const pageRouter = require("./route/page");
 
 //development middlewares
@@ -47,6 +54,11 @@ app.use(express.static(path));
 app.use("/", router);
 
 app.use("/app/pages", pageRouter);
+
+app.get("/retrieve_page_html/:id", retrievePage);
+app.post("/add_page", addPage);
+app.patch("/set_page_markdown/:id", setPageMarkdown);
+app.get("/list_pages", listPage);
 
 app.use("*", (req, res) => {
   res.sendFile(path + "index.html");
