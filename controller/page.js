@@ -1,5 +1,4 @@
 const Page = require("../model/page");
-const showdown = require("showdown")
 
 exports.addPage = (req, res) => {
   const { title, content } = req.body;
@@ -24,12 +23,6 @@ exports.addPage = (req, res) => {
           status: "fail",
           message: "Url already exist",
         });
-      }
-
-      if(content){
-       converter = new showdown.Converter()
-        content  = converter.makeMarkdown(content);
-
       }
       let newPage = new Page({ title, content: content ? content : "" });
 
@@ -69,14 +62,11 @@ exports.retrievePage = (req, res) => {
         });
       }
 
-      converter = new showdown.Converter()
-
       return res.status(200).json({
         status: "success",
         message: "Got what you are looking for",
         data: {
-          title: result.title,
-          content: converter.makeHtml(result.content)
+          result,
         },
       });
     })
@@ -106,19 +96,13 @@ exports.setPageMarkdown = (req, res) => {
     });
   }
 
-
-  converter = new showdown.Converter()
-  markdown  = converter.makeMarkdown(markdown);
-
-
   Page.findOneAndUpdate({ title }, { content: markdown }, { new: true })
     .then((result) => {
       return res.status(200).json({
         status: "success",
         message: "Page" + id + " markdown update is successful",
         data: {
-          title: result.title,
-          content: converter.makeHtml(result.content)
+          result,
         },
       });
     })
@@ -131,15 +115,13 @@ exports.setPageMarkdown = (req, res) => {
 };
 
 exports.listPage = (req, res) => {
-  converter = new showdown.Converter()
   Page.find()
     .then((result) => {
       return res.status(200).json({
         status: "success",
         message: "all saved pages",
         data: {
-          title: result.title,
-          content: converter.makeHtml(result.content)
+          result,
         },
       });
     })
