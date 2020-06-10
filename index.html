@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+  <title>Team Sentry Docker Task</title>
+  <style media="screen">
+    body {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    h1.headline {
+      font-size: 3em;
+      text-align: center;
+      margin-bottom: 60px;
+      text-decoration: underline;
+    }
+  </style>
+</head>
+
+<body>
+  <h1 class="headline">HNGi7 Team Sentry Docker Task</h1>
+  <h1>Usage</h1>
+
+  <ul>
+    <li>
+      <p>Open a terminal window (on linux and mac) or command prompt on Windows</p>
+
+      <ol>
+        <li>
+          <p>Type <strong>npm install</strong> to install all dependencies</p>
+        </li>
+
+        <li>
+          <p>Type <strong><em>npm start</em></strong> to start the server
+            __Default port is 3000</p>
+        </li>
+
+        <li>
+          <p>Open your browser and enter and of the endpoints</p>
+
+          <ul>
+            <li>
+              <p>http://localhost:3000/api/add_page
+                > Form data:
+                * title
+                * content</p>
+            </li>
+
+            <li>
+              <p>http://localhost:3000/api/retrieve<em>page</em>html?url=https://wikipedia.com&amp;type=external</p>
+            </li>
+
+            <li>
+              <p>http://localhost:3000/api/set<em>page</em>markdown?type=external&amp;url=https://wikipedia.com > GET Request</p>
+            </li>
+
+            <li>
+              <p>http://localhost:3000/api/set<em>page</em>markdown > POST Request
+                > Form data:
+                * title
+                * markdown</p>
+            </li>
+
+            <li>
+              <p>http://localhost:3000/api/list_pages</p>
+            </li>
+          </ul>
+        </li>
+      </ol>
+    </li>
+  </ul>
+
+  <h1 id="dependencies">Dependencies</h1>
+
+  <pre><code>* ExpressJS
+* Request
+* Showdown
+* Turndown
+* Mongoose
+</code></pre>
+
+  <h1 id="documentation">Documentation</h1>
+
+  <ol>
+    <li>
+      <p>When POST a request is made to <em>/add</em>page_ (with title and content contained in the request), it saves it to the database</p>
+    </li>
+
+    <li>
+      <p>When a GET request is made to <em>/retrieve</em>page<em>html</em>, it retrieves the webpage and displays it as raw HTML.</p>
+    </li>
+
+    <li>
+      <p>When a request is made to <em>/set</em>page<em>markdown</em>, we first do a GET request to /set<em>page</em>markdown which behind the scene retrieves the requested url (internal or external url?, converts it to markdown and then send to the
+        client for update.
+        Now the client updates it and then sends a POST request to /set<em>page</em>markdown which converts back to html and stores.</p>
+    </li>
+
+    <li>
+      <p>A GET request is made to /list_pages which retrieves all pages stored in the database.</p>
+
+      <h3 id="add_page">/add_page</h3>
+
+      <p>You need to make a POST request here
+        This endpoint takes exactly to parameters</p>
+
+      <ul>
+        <li>title - Title of the page to be added.</li>
+
+        <li>content - HTML markup of the page to be added.
+          > 'http://somepage.com/add_page?title=title&amp;content=content'</li>
+      </ul>
+
+      <h3 id="retrieve_page_html">/retrieve<em>page</em>html</h3>
+
+      <p>The endpoint handles two methods</p>
+
+      <ul>
+        <li>
+          <p>Request type: <strong>GET</strong>
+            This can be an <strong>internal</strong> or an <strong>external</strong> request.
+            <strong>Internal Request</strong> checks the local database and retrieves all available pages then sends them back to the client.
+            <strong>External Request</strong> expects the url of the desired page sent with <strong>url</strong>.</p>
+        </li>
+
+        <li>
+          <p>Request Type: <strong>POST</strong>
+            The user selects the page and sends a POST request containing the _id of the page. The page is located in the database and sent back to the user as RAW HTNL</p>
+        </li>
+      </ul>
+    </li>
+  </ol>
+
+  <h3 id="set_page_markdown">/set<em>page</em>markdown</h3>
+
+  <pre><code>Similar to the /retrieve_page_html, this also has two routes, a GET and POST.
+* Send a GET request to /set_page_markdown
+* Page is retrieved
+* Converted to markdown
+* Sent back
+* User edits/updates page markdown
+* User sends POST request with updated markdown
+* Markdown is converted back to HTML and saved in the database
+</code></pre>
+
+  <h3 id="list_pages">/list_pages</h3>
+
+  <pre><code>* GET request is sent to /list_pages
+* All data contained in the database is retrieved and sent back.
+</code></pre>
+</body>
+
+</html>

@@ -15,7 +15,7 @@ app.get("/", (req,res)=>{
 })
 
 app.get("/api", (req, res)=>{
-    res.sendFile("./README.md", {
+    res.sendFile("./index.html", {
         root: __dirname
     })
 })
