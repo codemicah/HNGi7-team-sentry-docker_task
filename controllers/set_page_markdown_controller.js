@@ -1,3 +1,26 @@
+/**
+ * @namespace set_page_markdown
+ * 
+ * @file
+ * 
+ * This controller uses a GET request to retrieve an already stored webpage from the 
+ * database or an external one (as the case may be) and sends the HTML markup to the client;
+ * After the client is done with editing the markup, it is 
+ * sent back to the database through a POST request to be saved.
+ */
+
+ /**
+  * @method 
+  * 
+  * Sends a GET request to the webpage; internal(to the database), external(to the URL) and 
+  * retrieves the markup from the webpage, after editing a POST request is 
+  * made to send it to the database for saving
+  * 
+  * @param {String} type The type of GET request to extract webpage markup
+  * 
+  * @param {URL} url The url or page id of the page to be extracted and edited
+  */
+
 const router = require("express").Router(),
             showdown = require("showdown"),
             request = require("request"),
