@@ -1,3 +1,21 @@
+/**
+ * @namespace add_page
+ * 
+ * @file
+ * 
+ * Adds the webpage specified in the url to the database
+*/
+
+/**
+ * @method 
+ * 
+ * Makes a POST request to store the markup in the url 
+ * query under 'content' in the database
+ * 
+ * @param {String} title the name to store the webpage with in the database
+ * @param {String} content contains the actual markup of the webpage
+ */
+
 const router = require("express").Router(),
             Data = require("../Resources/database/database"),
             Config = require("../config/config"),

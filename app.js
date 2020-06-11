@@ -1,3 +1,18 @@
+/**
+ * @namespace app
+ * 
+ * @file
+ * 
+ * This is the main server for the app. It is the command center
+ * for all controllers and integrates all their functionality
+ */
+
+ /**
+  * @method 
+  * It uses the 'use' method to connect all the respective endpoints 
+  * and connects the endpoints to make them accessible through the /api/ path
+  */
+
 const app = require("express")(),
             config = require("./config/config");
 

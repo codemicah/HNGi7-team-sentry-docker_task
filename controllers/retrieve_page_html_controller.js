@@ -1,3 +1,28 @@
+/**
+ * @namespace retrieve_page_html
+ * 
+ * @file 
+ * 
+ * Returns the html content of a specified webpage;
+ * if the request is an internal request, it returns the HTML markup from
+ * the database. if it is an external request it returns the HTML markup
+ * from the url specified. 
+ */
+
+
+ /**
+  * @method
+  * 
+  * Uses GET requests to extract the HTML markup from a 
+  * webpage stored in the DB(internal request) or an external
+  * webpage (accessed via URL)
+  * 
+  * @param {URL} url The url or page id of the page to be retrieved
+  * 
+  * @param {String} type The type of request to be made i.e internal(stored in 
+  * the database) or external(not in the database).
+  */
+
 const router = require("express").Router(),
             request = require("request"),
             Data = require("../Resources/database/database"),
