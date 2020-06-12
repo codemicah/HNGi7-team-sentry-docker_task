@@ -1,48 +1,50 @@
 const router = require("express").Router(),
-            request = require("request"),
-            
+            request = require("request"),           
             Config = require("../config/config"),
             mongoose = require("mongoose");
             User = require("../models/users"),
             xml = require("xml")
+            resultHandler = require("../config/settingMiddleware")
             
 
 
-router.get("/configure",(req,res)=>{
+router.get("/configure",require("../config/Auth/authenticate"),(req,res,next)=>{
      const format = req.body.format
-     const id = req.account_id
+     const id = req.query.id
  if(mongoose.connection.readyState == 1){
       if(['JSON',"XML"].includes(format.toUpperCase())){
-         User.findByIdAndUpdate(id,{setting:{dataFormat:format}},{ new: true }).then(result=>{
+         User.findByIdAndUpdate({account_id:id},{setting:{dataFormat:format.toUpperCase()}},{ new: true }).then(result=>{
 
-            const val = {
-                status:"success",
-                data:{
-                    result
-                }
-            }
-            if(result.settings.dataFormat==="XML"){
-                
-                let xmlString = xml(val);
-                res.type('application/xml');
-               return res.status(200).send(xmlString)
-            }
+            req.format =result.settings.dataFormat          
 
-         return res.status(200).send(val)
+            req.result=  {
+                status: "success",
+                data: val,
+                code:200                
+            }               
+            next()
+        
 
          }).catch(err=>{
-            res.status(500).send({
+
+            req.result = {
                 status:"fail",
+                err,
+                code:500,
                 message:"Cannot update you setting"
-            })
+            }
+            next()
 
          })
      
       }else{
-          res.status(400).send({
-              status:"fail",
-              message:"field should be in the supported format"
-          })
+        req.result = {
+            status:"fail",
+            err,
+            code:400,
+            message:"field should be in the supported format"
+        }
+          next()
       }
    }
    else{
@@ -50,4 +52,4 @@ router.get("/configure",(req,res)=>{
            status: "No database connection established"
        })
    }
-})
+},resultHandler)

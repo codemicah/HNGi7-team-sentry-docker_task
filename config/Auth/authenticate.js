@@ -9,6 +9,7 @@ module.exports = Authenticate = (req, res, next) =>{
         }, (err, user) => {
             if (!err && user != null) {
                 if (user.key === req.query.key) {
+                    req.format = req.user.settings.dataFormat
                     return next();
                 } else {
                     res.status(403).json({

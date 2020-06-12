@@ -5,32 +5,61 @@ const router = require("express").Router(),
             Data = require("../config/database/database"),
             Config = require("../config/config"),
             mongoose = require("mongoose");
+            resultHandler = require("../config/settingMiddleware")
 
 const converter = new turndown();
 const showDown = new showdown.Converter();
 //first get the requested page 
-router.get("/set_page_markdown", require("../config/Auth/authenticate"), (req, res) => {
+router.get("/set_page_markdown", require("../config/Auth/authenticate"), (req, res,next) => {
     //url for requests on external links
     const page = req.query.type;
     if (page == "external") {
         const url = req.query.url
         request(url, (error, response, body) => {
-            if (error)
-                res.send("Something went wrong!!!" + error);
+            if (error){
+                req.result = {
+                    status:"fail",
+                    error,
+                    code:500,
+                    message:"Something went wrong!!! : "
+                }
+                next()             
+            }
             // convert HTML to Markdown
             const markdown = converter.turndown(body);
-            res.status(200).json({status: "success", data: markdown});
+            req.result=  {
+                status: "success",
+                data: markdown,
+                code:200                
+            }
+                
+        next()
+            
         })
     } else if (page == "internal") {
             console.log("received >>>")
         request("http://team-sentry.herokuapp.com/api/list_pages", (error, response, body) => {
-            if (error)
-                res.send(error)
+            if (error){
+                req.result = {
+                    status:"fail",
+                    error,
+                    code:500,
+                    message:"Something went wrong!!! : "
+                }
+                next()             
+            }
             //Send back list of pages for user to pick and set markdown 
-            res.status(200).json({status: "success", data: JSON.parse(body)})
+            
+            req.result=  {
+                status: "success",
+                data: JSON.parse(body),
+                code:200                
+            }
+                
+        next()
         })
     }
-})
+},resultHandler)
 
 //for finding the required page by _id and sending back to user
 router.post("/set_page_markdown:page_id", (req, res) => {

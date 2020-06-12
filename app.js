@@ -20,7 +20,7 @@ app.use("/v1", add_page_controller)
 app.use("/v1", list_pages_controller)
 app.use("/v1", set_page_markdown_controller)
 app.use("/v1", retrieve_page_html_controller)
-app.use("/v1",config_controller)
+// app.use("/v1",config_controller)
 
 app.get("/v1/documentation", (req, res) => {
     res.sendFile("api_docs.json", {
