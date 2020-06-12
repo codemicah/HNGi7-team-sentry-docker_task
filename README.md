@@ -3,7 +3,7 @@
     1. Type __npm install__ to install all dependencies
     2. Type __*npm start*__ to start the server
         __Default port is 3000
-    3. Open your browser and enter and of the endpoints
+    3. Open your browser and enter any of the endpoints
         * http://localhost:3000/api/add_page
                 > Form data:
                     * title

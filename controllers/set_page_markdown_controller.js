@@ -6,11 +6,10 @@ const router = require("express").Router(),
             Config = require("../config/config"),
             mongoose = require("mongoose");
 
-
 const converter = new turndown();
 const showDown = new showdown.Converter();
 //first get the requested page 
-router.get("/set_page_markdown", (req, res) => {
+router.get("/set_page_markdown", require("../config/Auth/authenticate"), (req, res) => {
     //url for requests on external links
     const page = req.query.type;
     if (page == "external") {

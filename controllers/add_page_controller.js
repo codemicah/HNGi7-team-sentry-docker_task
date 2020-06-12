@@ -5,7 +5,7 @@ const router = require("express").Router(),
 
 router.use(require("body-parser").urlencoded({extended:true}))
 
-router.post("/add_page", (req, res) => {
+router.post("/add_page", require("../config/Auth/authenticate"), (req, res) => {
    if(mongoose.connection.readyState == 1){
        const title = req.body.title,
            content = req.body.content;
