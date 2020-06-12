@@ -15,10 +15,15 @@ router.post("/signin", (req, res) =>{
         }else{
             var hashedPassword = user.password;
             checkPwd = passwordHash.verify(req.body.password, hashedPassword);
+
             if(checkPwd == true){
+                user.password= undefined
                 res.status(200).json({
                     status: "success",
-                    message: "Login successful"
+                    message: "Login successful",
+                    data:{
+                        user
+                    }
                 })
             }else{
                  res.status(401).json({
