@@ -1,0 +1,78 @@
+FORMAT: 1A
+HOST: https://team-sentry.herokuapp.com/api
+
+# HNGi7 team-sentry API
+
+Welcome to HNGi7 team-sentry API. A dockerized micro-service for managing static, external pages.
+
+Polls is a simple API allowing consumers to view polls and vote in them.
+
+## List of pages [GET /api/list_pages]
+
+Here you retrieve all pages stored in DB
+    
++ Response 200 (application/json)
+
+      + Body
+                
+                    {
+                        "created": "2020-06-10T20:31:47.685Z",
+                        "_id": "5ee14f4138871d0024483881",
+                        "title": "test from postman",
+                        "content": "content from post man",
+                        "__v": 0
+                    }
+
+## Retrieve A Webpage's HTML [GET /api/retrieve_page_html]
+
+The requests to this endpoint can be external for external pages and internal for pages stored in the DB
+
++ Response 200 (application/json)
+
+    + Body
+           
+            {
+                "status": "success",
+                "data": "page html"
+            }
+            
+
+
+## Retrieve a page and convert to markdown [GET /api/set_page_markdown]
+
+Page is Retrieved in HTML Form Then Converted To Markdown and Sent To Client.
+
++ Response 200 (application/json)
+
+      + Body
+                    
+                {
+                    "status": "success",
+                    "data": "markdown"
+                }
+                        
+
+## Save Edited Markup From User [POST /api/set_page_markup]
+
+Client Edits Previously Received Markup and Sends It Back To Be Saved.
+
++ Response 200 (application/json)
+
+    + Body
+    
+            {
+                "title":"some title",
+                "content":"edited markup"
+            }
+                                
+
+## Add A New Page [POST /add_page]
+
++ Response 200 (application/json)
+
+    + Body
+            
+            {
+                "title":"some title",
+                "content":"content of the page"
+            }

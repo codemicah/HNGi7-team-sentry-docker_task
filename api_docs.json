@@ -1,0 +1,152 @@
+{
+    "info": {
+        "title": "microapi",
+        "description": "Micro-service for managing static, external page",
+        "version": "1.0",
+        "host": "auth.microapi.dev",
+        "basePath": "/v1"
+    },
+
+    "schemes": ["https", "http"],
+
+    "paths": {
+
+        "/v1": {
+            "get": {
+                "summary": "Return docs as json",
+                "description": "Returns the entire documentation of the endpoints",
+                "produces": "application/json",
+                "responses": {
+                    "200": {"description": "OK"}
+                },
+                "security": ""
+            }
+        },
+
+        "/v1/add_page": {
+            "post": {
+                "summary": "Add a static page to database",
+                "description": "takes title, content and other meta-data and persist them in the database",
+                "consumes": "application/json",
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "title",
+                        "type": "string",
+                        "required": true,
+                        "description": "Title of the page"
+                    },
+
+                    {
+                        "in": "body",
+                        "name": "content",
+                        "type": "string",
+                        "required": true,
+                        "description": "Content of the page"
+                    }
+                ],
+                "responses": {
+                    "201": {"description": "Created"},
+                    "400": {"description": "BAD REQUEST"}
+                },
+                "security": {
+                    "microapi_auth": ["write:page"]
+                }
+            }
+        },
+
+        "/v1/list_pages": {
+            "get": {
+                "summary": "List the pages in the database",
+                "description": "Returns a list of all the pages stored in the database",
+                "produces": "application/json",
+                "responses": {
+                    "200": {"description": "OK"},
+                    "400": {"description": "BAD REQUEST"}
+                },
+                "security": {
+                    "microapi_auth": ["read:page"]
+                }
+            }
+        },
+
+        "/v1/retrieve_page_html": {
+            "get": {
+                "summary": "Return page in html",
+                "description": "Returns the rwquested page formatted in html",
+                "produces": "text/html",
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "url",
+                        "type": "string",
+                        "required": true,
+                        "description": "link to rwquested page"
+                    }
+                ],
+                "responses": {
+                    "200": {"description": "OK"},
+                    "404": {"description": "NOT FOUND"}
+                },
+                "security": {
+                    "microapi_auth": ["read:page"]
+                }
+            }
+        },
+
+        "/v1/set_page_markdown": {
+            "get": {
+                "summary": "Return page in markdown",
+                "description": "Returns the requested page in markdown format",
+                "produces": "text/markdown",
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "url",
+                        "type": "string",
+                        "required": true,
+                        "description": "link to requested page"
+                    }
+                ],
+                "responses": {
+                    "200": {"description": "OK"},
+                    "404": {"description": "NOT FOUND"}
+                },
+                "security": {
+                    "microapi_auth": ["read:page"]
+                }
+            },
+
+            "post": {
+                "summary": "Update page content",
+                "description": "Update the contents of the page",
+                "consumes": "application/json",
+                "produces": "",
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "title",
+                        "type": "string",
+                        "required": true,
+                        "description": "Title of the page"
+                    },
+
+                    {
+                        "in": "body",
+                        "name": "markdown",
+                        "type": "string",
+                        "required": true,
+                        "description": "Content of the page in markdown format"
+                    }
+                ],
+                "responses": {
+                    "202": {"description": "MODIFIED"},
+                    "400": {"description": "BAD REQUEST"}
+                },
+                "security": {
+                    "microapi_auth": ["write:page"]
+                }
+            }
+        }
+    }
+}

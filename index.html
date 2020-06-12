@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Team-Sentry API</title>
+</head>
+<body>
+    <div class="main" id="main">
+        <h1 style="text-align: center;">Welcome to our API [ Team-Sentry ]</h1>
+        <p style="text-align: center;">github: <a href="https://github.com/Megxos/HNGi7-team-sentry-docker_task">https://github.com/Megxos/HNGi7-team-sentry-docker_task</a>
+        </p>
+        <p>
+            <big>Use any of these functional endpoints for a quick test</big>
+        </p>
+        <div>
+               <ol>
+                   <li>
+                       <h4>POST: /add_page</h4>
+                       <code><a href="http://team-sentry.herokuapp.com/api/add_page">http://team-sentry.herokuapp.com/api/add_page</a></code>
+                   </li>
+                   <li>
+                    <h4>GET: /retrieve_page_html</h4>
+                    <code>
+                        <a
+                            href="http://team-sentry.herokuapp.com/api/retrieve_page_html?url=https://wikipedia.com&type=external">http://team-sentry.herokuapp.com/api/retrieve_page_html?url=https://wikipedia.com&type=external</a>
+                    </code>
+                   </li>
+                   <li>
+                       <h4>GET and POST: /set_page_markdown</h4>
+                        <ul>
+                            <li><code><a href="http://team-sentry.herokuapp.com/api/set_page_markdown?type=external&url=https://wikipedia.com">http://team-sentry.herokuapp.com/api/set_page_markdown?type=external&url=https://wikipedia.com</a> > <strong>GET Request</strong></code></li>
+                            <li>
+                                <code> 
+                                    <a href=" http://team-sentry.herokuapp.com/api/set_page_markdown ">http://team-sentry.herokuapp.com/api/set_page_markdown </a><strong>POST Request</strong>
+                                </code>
+                                <h5>Form data: </h5>
+                                <ul>
+                                    <li>title</li>
+                                    <li>markdown</li>
+                                </ul>
+                            </li>
+                        </ul>
+                   </li>
+                   <li>
+                       <h4>GET: /list_pages</h4>
+                       <code><a
+                               href="http://team-sentry.herokuapp.com/api/list_pages">http://team-sentry.herokuapp.com/api/list_pages</a></code>
+                   </li>
+               </ol>
+        </div>
+    </div>
+    <div class="documentation" id="documentation">
+        <h2>Documentation</h2>
+        <ol>
+            <li>
+                When POST a request is made to <code>/add_page</code>(with title and content contained in the request), it saves it to the database
+            </li>
+            <li>
+                When a GET request is made to <code>/retrieve_page_html_</code>, it retrieves the webpage and displays it as raw HTML.
+            </li>
+            <li>
+                When a request is made to <code>/set_page_markdown</code>, we first do a GET request to /set_page_markdown which behind the scene
+                retrieves the requested url (internal or external url?, converts it to markdown and then send to the client for update.
+                <p>
+                    Now the client updates it and then sends a POST request to /set_page_markdown which converts back to html and stores.
+                </p>
+            </li>
+            <li>
+                A GET request is made to /list_pages which retrieves all pages stored in the database.
+            </li>
+        </ol>
+        <h2>Endpoints</h2>
+        <ol>
+           <li>
+                <h4>/add_page</h4>
+                <p>
+                    You need to make a POST request here.<br>
+                    This endpoint takes exactly to parameters
+                    <ul>
+                        <code><strong>http://team-sentry.herokuapp.com/add_page</strong></code><br>
+                        <strong>Form Data: </strong>
+                        <li>
+                            <strong>title - </strong>Title of the page to be added.
+                      </li>
+                      <li>
+                            <strong>content - </strong>HTML markup of the page to be added.
+                      </li>
+                    </ul>
+                </p>
+           </li>
+           <li>
+               <h4>/retrieve_page_html</h4>
+               <ul>
+                   <li><h5>Request type: GET </h5>
+                   <p>This can be an internal or an external request.</p>
+                        <ul>
+                            <li>
+                                <h5>Internal Request: </h5>
+                                <p>checks the local database and retrieves all available pages then sends them back to the client.</p>
+                            </li>
+                            <li>
+                                <h5>External Request:</h5>
+                                <p>expects the url of the desired page sent with <em>url</em>.</h5>
+                            </li>
+                        </ul> 
+                    </ul>
+                </ul>
+    </li>
+            <li>
+                <h4>/set_page_markdown</h4>
+                <p>
+                    Similar to the /retrieve_page_html, this also has two routes, a <strong>GET</strong>  and <strong>POST</strong>.
+                    <p>The POST route expects: </p>
+                    <ul>
+                        <li>title</li>
+                        <li>markdown</li><br>
+                    </ul>
+                <ol>
+                    <li>Send a GET request to /set_page_markdown</li>
+                    <li>Page is retrieved</li>
+                    <li>Converted to markdown</li>
+                    <li>Sent back</li>
+                    <li>User edits/updates page markdown</li>
+                    <li>User sends POST request with updated markdown</li>
+                    <li>Markdown is converted back to HTML and saved in the database</li>
+                </ol>
+                </p>
+            </li>
+            <li>
+                <h4>/list_pages</h4>
+                <ul>
+                    <li>GET request is sent to /list_pages</li>
+                    <li>All data contained in the database is retrieved and sent back.</li>
+                </ul>
+            </li>
+        </ol>
+    </div>
+    <style>
+        body{
+            background-color: skyblue;
+            padding: 10px;
+        }
+        code{
+            background-color: yellow;
+            padding: 2px;
+        }
+        #documentation{
+            background-color: #bae4f5;
+            padding: 5px;
+        }
+        h1,h2,h3,h4,h5{
+            padding: 5px;
+            letter-spacing: .1em;
+        }
+    </style>
+</body>
+</html>
