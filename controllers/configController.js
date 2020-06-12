@@ -8,7 +8,7 @@ const router = require("express").Router(),
             
 
 
-router.get("/configure",require("../config/Auth/authenticate"),(req,res,next)=>{
+router.post("/configure",require("../config/Auth/authenticate"),(req,res,next)=>{
      const format = req.body.format
      const id = req.query.id
  if(mongoose.connection.readyState == 1){
