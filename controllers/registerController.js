@@ -24,10 +24,13 @@ router.post("/register", (req, res)=>{
             if(err){
                 return res.status(409).json({
                     status: "conflict",
-                    message: "That username already exists"
+                    message: err
                 })
             }
-            res.status(200).json({
+           if(user){
+               res.status(304).json({message: "User already exists"})
+           }
+                                          res.status(200).json({
                 status: "success",
                 message: "Registration successful",
                 data: {
@@ -35,7 +38,8 @@ router.post("/register", (req, res)=>{
                     account_id: user.account_id,
                     "key/token": user.key
                 }
-            })
+            })  
+
         })
     }
 })
